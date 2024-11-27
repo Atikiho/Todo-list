@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% block content %}
+  {% if "tags" in request.path %}
+    <h1>{{ object|yesno:"Update,Create" }} tag</h1>
+  {% elif "tasks" in request.path %}
+    <h1>{{ object|yesno:"Update,Create" }} task</h1>
+  {% endif %}
+  <form method="post" action="">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+{% endblock %}
