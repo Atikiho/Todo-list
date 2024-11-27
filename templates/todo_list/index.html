@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="container-fluid">
+    <h1 class="line-block">
+      TODO list
+      <a href = "{% url "todo-list:task-create" %}" class="btn btn-primary" style="float:right">Add Task</a>
+    </h1>
+  {% for task in task_list %}
+    <h4>
+      {{ task.content }}
+      {% if task.state %}
+        <span style="color:green">Done</span>
+        <a class = "btn btn-secondary float-right" href = "{% url "todo-list:task-action" pk=task.id %}">Undo</a>
+      {% else %}
+        <span style="color:red">Not Done</span>
+        <a class = "btn btn-success float-right" href = "{% url "todo-list:task-action" pk=task.id %}">Complete</a>
+      {% endif %}
+    </h4>
+    <h6>Created:
+      {{ task.created_at }}
+      {% if task.deadline %}
+        <span style="color:darkred">Deadline: {{ task.deadline }}</span>
+      {% endif %}
+    </h6>
+    <h7 style="color: grey">
+      Tags:
+      {% for tag in task.tags.all %}
+        {{ tag.name }}
+      {% endfor %}
+    </h7>
+    <a href = "{% url "todo-list:task-update" pk=task.id %}">Update</a>
+    <a href = "{% url "todo-list:task-delete" pk=task.id %}">Delete</a>
+    <hr>
+  {% endfor %}
+  </div>
+{% endblock %}
